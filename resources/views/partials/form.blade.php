@@ -1,4 +1,4 @@
-@unless (isset($user) and $user->user_id)
+@if ($mostrarCampos)
     <div class="form-group">
       <label for="name">Nombre</label>
         <input type="text" class="form-control" 
@@ -7,7 +7,7 @@
       <input type="email" class="form-control" 
         id="email" name="correo" value="{{ $user->correo ?? old('correo')}}">
     </div>    
-@endunless
+@endif
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Example textarea</label>
       <textarea class="form-control" id="exampleFormControlTextarea1" 

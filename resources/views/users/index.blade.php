@@ -12,6 +12,7 @@
           <th scope="col">correo</th>
           <th scope="col">role</th>
           <th scope="col">notitas</th>
+          <th scope="col">etiquetas</th>
         </tr>
       </thead>
       <tbody>
@@ -28,6 +29,9 @@
               </td>
               <td>
                 {{$item->note->pluck('body')->implode(' - ')}}
+              </td>
+              <td>
+                {{$item->etiqueta->pluck('nombre')->implode(', ')}}
               </td>
               <td>
                 <a class="btn btn-info btn-xs" 

@@ -22,6 +22,7 @@ class Mensajes extends Model{
     }
 
     public function etiqueta(){
+        // hacer referencia con la clase Tags etiqueta
         return $this->morphToMany(Tags::class, 'tagable');
     }
 }

@@ -71,6 +71,11 @@ class User extends Authenticatable
         return $this->morphMany(Nota::class, 'notable');
     }
 
+    public function etiqueta(){
+        // hacer referencia con la clase Tags etiqueta
+        return $this->morphToMany(Tags::class, 'tagable')->withTimestamps();
+    }
+
     // public function mensajes(){
     //     // relacionar con la clase mensaje
     //     return $this->hasMany(Mensajes::class);

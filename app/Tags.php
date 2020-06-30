@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Mensajes;
+use App\User;
 
 class Tags extends Model
 {
@@ -12,4 +13,9 @@ class Tags extends Model
     public function mensajes(){
         return $this->morphedByMany(Mensajes::class, 'tagable');
     }
+
+    public function user(){
+        return $this->morphedByMany(User::class, 'tagable');
+    }
+
 }

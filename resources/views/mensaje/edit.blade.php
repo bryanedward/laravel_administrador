@@ -5,7 +5,9 @@
     <form action="{{route('mensajes.update', $user->id)}}" 
         method="post" style="display:inline">
         @csrf @method('PUT') 
-        @include('partials.form', [ 'btnValor' => 'Editar'])
+        @include('partials.form', [ 
+            'btnValor' => 'Editar',
+            'mostrarCampos' => !$user->id])
     </form>
 </div>    
 @endsection

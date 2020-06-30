@@ -23,7 +23,8 @@ class UsuarioController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(){    
-        $usuarios = \App\User::all();
+        // correcion de la consultas multiples error n+1
+        $usuarios = User::with(['roles','note','etiqueta'])->get();
         return view('users.index', compact('usuarios'));
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mensajes;
+use App\Events\MessageWasReceived;
 use App\Http\Requests\validarFormulario;
  
 
@@ -17,7 +18,8 @@ class MensajeController extends Controller
     
     
     public function index(){
-        $mensajes = Mensajes::all();
+        // correcion de la consultas multiples error n+1
+        $mensajes = Mensajes::with(['mensajesJoin','note','etiqueta'])->get();
         return view('mensaje.index', compact('mensajes'));
     }
 
@@ -38,7 +40,9 @@ class MensajeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-                
+        
+        $message = Mensajes::create($request->all());
+        
         if(auth()->check()){
             Mensajes::create([
                 'mensaje' => $request->input('mensaje'),
@@ -47,6 +51,10 @@ class MensajeController extends Controller
         }else{
             Mensajes::create($request->all());
         }
+
+        event(new MessageWasReceived($message));
+
+        
 
         return back();
     }
