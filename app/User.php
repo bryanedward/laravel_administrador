@@ -76,8 +76,8 @@ class User extends Authenticatable
         return $this->morphToMany(Tags::class, 'tagable')->withTimestamps();
     }
 
-    // public function mensajes(){
-    //     // relacionar con la clase mensaje
-    //     return $this->hasMany(Mensajes::class);
-    // }
+    public function mensajes(){
+        // relacionar con la clase mensaje
+        return $this->hasMany(Mensajes::class);
+    }
 }

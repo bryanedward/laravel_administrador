@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Mensajes;
 use App\Events\MessageWasReceived;
 use App\Http\Requests\validarFormulario;
- 
+use Illuminate\Support\Facades\Cache;
 
 class MensajeController extends Controller
 {
@@ -18,9 +18,18 @@ class MensajeController extends Controller
     
     
     public function index(){
-        // correcion de la consultas multiples error n+1
-        $mensajes = Mensajes::with(['mensajesJoin','note','etiqueta'])->get();
+
+        $itemCache = "mensajes.pagina." . request('page', 1); 
+
+        $mensajes = Cache::remember($itemCache, 60, function() {
+            // 1. parametro el id 2. tiempo 3. funcion anonima 
+            return Mensajes::with(['mensajesJoin','note','etiqueta'])
+            ->orderBy('created_at', request('sorted', 'DESC'))
+            ->paginate(10);
+        });
+        
         return view('mensaje.index', compact('mensajes'));
+    
     }
 
     /**
@@ -42,7 +51,7 @@ class MensajeController extends Controller
     public function store(Request $request){
         
         $message = Mensajes::create($request->all());
-        
+        // no envia mensajes cuando estas logueado
         if(auth()->check()){
             Mensajes::create([
                 'mensaje' => $request->input('mensaje'),

@@ -56,5 +56,6 @@
             @endforeach
         </tbody>
     </table>
+    {{$mensajes->fragment('hash')->appends(request()->query())->links('pagination::bootstrap-4')}}
 </div>
 @endsection
