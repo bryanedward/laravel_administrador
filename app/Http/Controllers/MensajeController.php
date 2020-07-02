@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mensajes;
-use AA\User;
 use App\Events\MessageWasReceived;
 use App\Http\Requests\validarFormulario;
 use Illuminate\Support\Facades\Cache;
