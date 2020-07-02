@@ -32,7 +32,7 @@ class SendNotificationToOwner
         Mail::send('emails.contact',['msg' => $message ], function($m) use ($message){
             // recibe tres parametros 1.la vista ,2 . un array con los datos que vamos a pasar la vista , 3. una funcion anonima que recibe los
             // los parametros del formulario
-            $m->from($message->correo, $message->nombre)
+            $m->from($message->email, $message->name)
             ->to('edwardbrian96@gmail.com', 'Bryan')
             ->subject('bienvenido a mailtrap');
         });

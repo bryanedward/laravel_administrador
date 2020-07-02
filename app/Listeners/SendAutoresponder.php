@@ -29,11 +29,15 @@ class SendAutoresponder
     public function handle(MessageWasReceived $event){
         
         $message = $event->message;
-        //obtieve el evento 
+        if(auth()->check()){
+            //sobreescribir la variable del email
+            $message->email = auth()->user()->email;
+        } 
+
         Mail::send('emails.contact',['msg' => $message ], function($m) use ($message){
             // recibe tres parametros 1.la vista ,2 . un array con los datos que vamos a pasar la vista , 3. una funcion anonima que recibe los
             // los parametros del formulario
-            $m->to($message->correo, $message->nombre)->subject('bienvenido a mailtrap');
+            $m->to($message->email, $message->name)->subject('bienvenido a mailtrap');
         });
     }
 }

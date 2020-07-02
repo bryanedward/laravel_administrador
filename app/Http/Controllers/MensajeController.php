@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mensajes;
+use AA\User;
 use App\Events\MessageWasReceived;
 use App\Http\Requests\validarFormulario;
 use Illuminate\Support\Facades\Cache;
@@ -53,18 +54,10 @@ class MensajeController extends Controller
         $message = Mensajes::create($request->all());
         // no envia mensajes cuando estas logueado
         if(auth()->check()){
-            Mensajes::create([
-                'mensaje' => $request->input('mensaje'),
-                'user_id' => auth()->user()->id
-            ]);
-        }else{
-            Mensajes::create($request->all());
+            auth()->user()->mensajes()->save($message);
         }
 
         event(new MessageWasReceived($message));
-
-        
-
         return back();
     }
 
@@ -110,8 +103,10 @@ class MensajeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id){
+        Mensajes::findOrFail($id)->delete();
+
+        Cache::flush();
+        return redirect()->route('mensajes.index');
     }
 }

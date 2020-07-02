@@ -9,7 +9,7 @@ use App\Tags;
 
 class Mensajes extends Model{
 
-    protected $fillable = ['nombre', 'correo', 'mensaje'];
+    protected $fillable = ['name', 'email', 'message'];
     
     public function mensajesJoin(){
         // relacionar tablas

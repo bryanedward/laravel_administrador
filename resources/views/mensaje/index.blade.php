@@ -25,15 +25,15 @@
                   </td>
                 @else
                   <td>
-                    {{$item->nombre}}
+                    {{$item->name}}
                   </td>
                   <td>
-                    {{$item->correo}}  
+                    {{$item->email}}  
                   </td>    
                 @endif
                 <td>
                   <a href="{{route('mensajes.show', $item->id)}}">
-                    {{$item->mensaje}}
+                    {{$item->message}}
                   </a>
                 </td>
                 <td>

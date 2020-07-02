@@ -17,9 +17,9 @@ class mensajesSeeder extends Seeder
 
         for ($item = 0; $item  < 100 ; $item++) { 
             Mensajes::create([
-                'nombre' => "prueba {$item}",
-                'correo' => "usuario{$item}@gmail.com",
-                'mensaje' => "mensajes de prueba {$item}",
+                'name' => "prueba {$item}",
+                'email' => "usuario{$item}@gmail.com",
+                'message' => "mensajes de prueba {$item}",
                 'created_at' => Carbon::now()->subDays(100)->addDays($item)
                 ]);
         }
