@@ -6,10 +6,18 @@ use Illuminate\Http\Request;
 use App\Mensajes;
 use App\Events\MessageWasReceived;
 use App\Http\Requests\validarFormulario;
-use Illuminate\Support\Facades\Cache;
+use App\Repositorios\InterfaceClass;
 
 class MensajeController extends Controller
 {
+    private $repositorio;
+
+    public function __construct(InterfaceClass $repositorio){
+        // asignar el modelo repositorio al controlador mensaje para ser uso en toda la casa
+        $this->repositorio = $repositorio;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -19,14 +27,7 @@ class MensajeController extends Controller
     
     public function index(){
 
-        $itemCache = "mensajes.pagina." . request('page', 1); 
-
-        $mensajes = Cache::rememberForEver($itemCache, function() {
-            // 1. parametro el id 2. tiempo 3. funcion anonima 
-            return Mensajes::with(['mensajesJoin','note','etiqueta'])
-            ->orderBy('created_at', request('sorted', 'DESC'))
-            ->paginate(10);
-        });
+        $mensajes = $this->repositorio->obtenerPaginacion();
         return view('mensaje.index', compact('mensajes'));
     
     }
@@ -39,6 +40,7 @@ class MensajeController extends Controller
     public function create(){
 
         return view('mensaje.create');
+
     }
 
     /**
@@ -49,12 +51,8 @@ class MensajeController extends Controller
      */
     public function store(Request $request){
         
-        $message = Mensajes::create($request->all());
-        // no envia mensajes cuando estas logueado
-        if(auth()->check()){
-            auth()->user()->mensajes()->save($message);
-        }
-        Cache::flush();
+        $message = $this->repositorio->guardarMensajes($request);
+
         event(new MessageWasReceived($message));
         return back();
     }
@@ -67,10 +65,8 @@ class MensajeController extends Controller
      */
     public function show($id){
         
-        $userContacto = Cache::rememberForEver("mensaje.user.{$id}", function() use ($id){
-            // use ($id) representa a la varible que debe usar la funcion anonima
-            return Mensajes::findorFail($id); 
-        }); 
+        $userContacto = $this->repositorio->mostrarMensajes($id);
+
         return view('mensaje.show', compact('userContacto'));
     }
 
@@ -82,9 +78,7 @@ class MensajeController extends Controller
      */
     public function edit($id){
 
-        $user = Cache::rememberForEver("editMensaje.user.{$id}", function() use ($id){
-            return Mensajes::findorFail($id);;
-        });
+        $user = $this->repositorio->editarMensaje($id);
         return view('mensaje.edit', compact('user'));
     }
 
@@ -97,10 +91,7 @@ class MensajeController extends Controller
      */
     public function update(Request $request, $id){
         // actualizacion de datos
-        $user = Mensajes::findorFail($id);
-        $user->update($request->all());
-
-        Cache::flush();
+        $this->repositorio->actualizarMensaje($request, $id);
         return back();
     }
 
@@ -111,9 +102,8 @@ class MensajeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id){
-        Mensajes::findOrFail($id)->delete();
-
-        Cache::flush();
+        
+        $this->repositorio->eliminarMensajes($id);
         return redirect()->route('mensajes.index');
     }
 }

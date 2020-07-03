@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositorios\InterfaceClass;
+use App\Repositorios\CacheDecorador;
+use App\Repositorios\MensajeRepositorios;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //Asignar inrface a la clase cacheDecorador para utilizar en diferentes controladores
+        app()->bind(InterfaceClass::class, CacheDecorador::class);
     }
 }

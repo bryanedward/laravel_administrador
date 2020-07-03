@@ -19,14 +19,12 @@ use Illuminate\Support\Facades\Route;
 //     "password" => bcrypt('estudiante'),
 // ]);
 
-DB::listen(function($query){
- echo "<pre>{{$query->sql}}</pre>";
-});
-
-
-// Route::get('/home', function () {
-//     return view('home');
+// DB::listen(function($query){
+//  echo "<pre>{{$query->sql}}</pre>";
 // });
+
+
+
 
 Route::get('/', 'HomeController@index')->name('home');
 
