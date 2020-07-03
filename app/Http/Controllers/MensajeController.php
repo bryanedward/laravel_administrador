@@ -21,13 +21,12 @@ class MensajeController extends Controller
 
         $itemCache = "mensajes.pagina." . request('page', 1); 
 
-        $mensajes = Cache::remember($itemCache, 60, function() {
+        $mensajes = Cache::rememberForEver($itemCache, function() {
             // 1. parametro el id 2. tiempo 3. funcion anonima 
             return Mensajes::with(['mensajesJoin','note','etiqueta'])
             ->orderBy('created_at', request('sorted', 'DESC'))
             ->paginate(10);
         });
-        
         return view('mensaje.index', compact('mensajes'));
     
     }
@@ -55,7 +54,7 @@ class MensajeController extends Controller
         if(auth()->check()){
             auth()->user()->mensajes()->save($message);
         }
-
+        Cache::flush();
         event(new MessageWasReceived($message));
         return back();
     }
@@ -67,7 +66,11 @@ class MensajeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-        $userContacto = Mensajes::findorFail($id);
+        
+        $userContacto = Cache::rememberForEver("mensaje.user.{$id}", function() use ($id){
+            // use ($id) representa a la varible que debe usar la funcion anonima
+            return Mensajes::findorFail($id); 
+        }); 
         return view('mensaje.show', compact('userContacto'));
     }
 
@@ -78,7 +81,10 @@ class MensajeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $user = Mensajes::findorFail($id);
+
+        $user = Cache::rememberForEver("editMensaje.user.{$id}", function() use ($id){
+            return Mensajes::findorFail($id);;
+        });
         return view('mensaje.edit', compact('user'));
     }
 
@@ -93,6 +99,8 @@ class MensajeController extends Controller
         // actualizacion de datos
         $user = Mensajes::findorFail($id);
         $user->update($request->all());
+
+        Cache::flush();
         return back();
     }
 
