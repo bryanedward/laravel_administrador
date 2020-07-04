@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Mail;
 
-class SendNotificationToOwner
+class SendNotificationToOwner implements ShouldQueue
 {
     /**
      * Create the event listener.

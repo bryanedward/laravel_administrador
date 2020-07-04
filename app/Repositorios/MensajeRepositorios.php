@@ -27,7 +27,6 @@ use App\Mensajes;
             }
         
             return $message;
-
         }
 
 

@@ -54,7 +54,7 @@ class MensajeController extends Controller
         $message = $this->repositorio->guardarMensajes($request);
 
         event(new MessageWasReceived($message));
-        return back();
+        return redirect()->route('mensajes.index');
     }
 
     /**
@@ -64,6 +64,7 @@ class MensajeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id){
+        
         
         $userContacto = $this->repositorio->mostrarMensajes($id);
 

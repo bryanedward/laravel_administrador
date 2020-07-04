@@ -23,10 +23,16 @@ use Illuminate\Support\Facades\Route;
 //  echo "<pre>{{$query->sql}}</pre>";
 // });
 
+// Route::get('mensajeria', function(){
+//     dispatch(new App\Jobs\EnviarCorreo);
+
+//     Return 'ok';
+// });
 
 
 
-Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/home', 'HomeController@index')->name('home');
 
 
 

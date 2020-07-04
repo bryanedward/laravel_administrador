@@ -15,32 +15,21 @@
         <tbody>
             @foreach ($mensajes as $item)
             <tr>
-                {{-- verificar validacion con el meotodo mensajesJoin en la clase modelo Mensajes --}}
-                @if ($item->mensajesJoin)
-                  <td>
-                    {{$item->mensajesJoin->name}}
-                  </td>  
-                  <td>
-                    {{$item->mensajesJoin->email}}
-                  </td>
-                @else
-                  <td>
-                    {{$item->name}}
-                  </td>
-                  <td>
-                    {{$item->email}}  
-                  </td>    
-                @endif
-                <td>
-                  <a href="{{route('mensajes.show', $item->id)}}">
-                    {{$item->message}}
-                  </a>
+                {{-- view presents --}}
+                <td> 
+                  {{ $item->mensajePresenter()->name() }}
+                </td>
+                <td> 
+                  {{$item->mensajePresenter()->email()}} 
                 </td>
                 <td>
-                  {{$item->note->pluck('body')->implode('-')}}
+                  {{$item->mensajePresenter()->rutaMensaje()}}
                 </td>
                 <td>
-                  {{$item->etiqueta->pluck('nombre')->implode('-')}}
+                  {{$item->mensajePresenter()->nota()}}
+                </td>
+                <td>
+                  {{$item->mensajePresenter()->etiqueta()}}
                 </td>
                 <td>
                   <a class="btn btn-info btn-xs" 
