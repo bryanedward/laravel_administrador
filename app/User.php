@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Presenters\UserPresenter;
 use App\Mensajes;
  
 
@@ -73,11 +74,18 @@ class User extends Authenticatable
 
     public function etiqueta(){
         // hacer referencia con la clase Tags etiqueta
-        return $this->morphToMany(Tags::class, 'tagable')->withTimestamps();
+        return $this->morphToMany(Tags::class, 'tagable');
     }
 
     public function mensajes(){
         // relacionar con la clase mensaje
         return $this->hasMany(Mensajes::class);
     }
+
+
+    public function userPresenter(){
+        // enviar los datos al view provider
+        return  new UserPresenter($this);
+    }
+
 }

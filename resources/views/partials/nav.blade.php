@@ -40,9 +40,6 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             @if (auth()->user()->verificarRol(['admin','moderador']))
                                 <a class="dropdown-item" href="{{route('usuarios.index')}}">Usuarios</a>
-                                <a  class="dropdown-item" href="#">Amin</a>                            
-                            @else
-                                <a class="dropdown-item" href="#">Moderador</a>
                             @endif
                             <a class="dropdown-item" 
                                 href="/usuarios/{{(auth()->user()->id )}}/edit">Mi cuenta</a>                  

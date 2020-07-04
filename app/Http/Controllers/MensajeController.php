@@ -65,6 +65,7 @@ class MensajeController extends Controller
      */
     public function show($id){
         
+        
         $userContacto = $this->repositorio->mostrarMensajes($id);
 
         return view('mensaje.show', compact('userContacto'));

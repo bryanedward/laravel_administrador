@@ -19,19 +19,19 @@
           @foreach ($usuarios as $item)
           <tr>
               <th scope="row">
-                {{$item->id}}
+                {{$item->userPresenter()->id()}}
               </th>
               <td>
-                {{$item->name}}
+                {{$item->userPresenter()->name()}}
               </td>
               <td>
-                {{ $item->roles->pluck('descrip_user')->implode(' - ') }}
+                {{ $item->userPresenter()->roles()}}
               </td>
               <td>
-                {{$item->note->pluck('body')->implode(' - ')}}
+                {{$item->userPresenter()->nota()}}
               </td>
               <td>
-                {{$item->etiqueta->pluck('nombre')->implode(', ')}}
+                {{ $item->userPresenter()->etiqueta()}}
               </td>
               <td>
                 <a class="btn btn-info btn-xs" 
