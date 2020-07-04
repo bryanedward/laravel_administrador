@@ -54,7 +54,7 @@ class MensajeController extends Controller
         $message = $this->repositorio->guardarMensajes($request);
 
         event(new MessageWasReceived($message));
-        return back();
+        return redirect()->route('mensajes.index');
     }
 
     /**

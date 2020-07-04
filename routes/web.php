@@ -23,6 +23,12 @@ use Illuminate\Support\Facades\Route;
 //  echo "<pre>{{$query->sql}}</pre>";
 // });
 
+// Route::get('mensajeria', function(){
+//     dispatch(new App\Jobs\EnviarCorreo);
+
+//     Return 'ok';
+// });
+
 
 
 
