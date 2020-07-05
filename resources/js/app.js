@@ -34,3 +34,8 @@ const app = new Vue({
 $('form').on('submit', function(){
     $(this).find('input[type=submit]').attr('disabled',true);
 });
+
+
+Echo.channel('laravel_database_mensajes-canal').listen('MessageWasReceived', (data) => {
+    console.log(data);
+});
