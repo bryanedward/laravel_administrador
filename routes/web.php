@@ -30,9 +30,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
+// Route::view('/{home}', 'app');
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 
 
@@ -40,3 +41,6 @@ Auth::routes();
 
 Route::resource('usuarios','UsuarioController');
 Route::resource('mensajes','MensajeController');
+// Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');

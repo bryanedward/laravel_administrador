@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-3">
-
-        <h1>Welcome {{$dataUser->name}}</h1>
-        <p>Email {{$dataUser->email}}</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+           
+            <div id="example"> </div>
+                
+        </div>
+    </div>
 </div>
 @endsection
